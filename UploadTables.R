@@ -171,5 +171,22 @@ renderTranslateExecuteSql(connection, sql)
 sql <- readSql("buildDrugEras.sql")
 renderTranslateExecuteSql(connection, sql)
 
+# Populate cdm_source --------------------------------------------------
+sql <- "SELECT vocabulary_version FROM @cdm_database_schema.vocabulary WHERE vocabulary_id = 'None';"
+vocabularyVersion <- DatabaseConnector::renderTranslateQuerySql(connection = connection,
+                                                                sql = sql,
+                                                                cdm_database_schema = cdmDatabaseSchema)[1, 1]
+row <- data.frame(cdm_source_name = "Medicare Claims Synthetic Public Use Files (SynPUFs)",
+                  cdm_source_abbreviation = "synPuf",
+                  source_description = "Medicare Claims Synthetic Public Use Files (SynPUFs) were created to allow interested parties to gain familiarity using Medicare claims data while protecting beneficiary privacy. These files are intended to promote development of software and applications that utilize files in this format, train researchers on the use and complexities of Centers for Medicare and Medicaid Services (CMS) claims, and support safe data mining innovations. The SynPUFs were created by combining randomized information from multiple unique beneficiaries and changing variable values. This randomization and combining of beneficiary information ensures privacy of health information.",
+                  cdm_release_date = Sys.Date(),
+                  cdm_version = "5.2.2",
+                  vocabulary_version = vocabularyVersion)
+insertTable(connection = connection,
+            databaseSchema = cdmDatabaseSchema,
+            tableName = "cdm_source",
+            data = row,
+            createTable = FALSE)
+
 
 disconnect(connection)

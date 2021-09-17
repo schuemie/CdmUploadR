@@ -7,6 +7,7 @@ This repo contains a single R script for uploading data from local CSV files to 
 - Automatically skip columns that do not correspond to a field in the CDM.
 - Automatically add missing datetime fields (by copying date fields).
 - Populates the drug_exposure.drug_exposure_end_date field based on the drug_exposure_start_date and days_supply, if not already populated.
+- Populates the cdm_source table.
 
 The script was designed specifically to upload **Synpuf** data to a **PostgreSQL** database, but could easily be adapted for other data and database platforms.
 
