@@ -1,0 +1,26 @@
+CREATE INDEX  idx_observation_period_start_date  ON  observation_period  (observation_period_start_date ASC);
+CREATE INDEX  idx_observation_period_end_date  ON  observation_period  (observation_period_end_date ASC);
+CREATE INDEX  idx_drug_start_date  ON  drug_exposure (drug_exposure_start_date ASC);
+CREATE INDEX  idx_drug_end_date  ON  drug_exposure (drug_xposure_end_date ASC);
+CREATE INDEX  idx_condition_start_date  ON  condition_occurrence (condition_start_date ASC);
+CREATE INDEX  idx_condition_end_date  ON  condition_occurrence (condition_end_date ASC);
+CREATE INDEX  idx_procedure_date  ON  procedure_occurrence (procedure_date ASC);
+CREATE INDEX  idx_measurement_date  ON  measurement (measurement_date ASC);
+CREATE INDEX  idx_observation_date  ON  observation (observation_date ASC);
+CREATE INDEX  idx_drug_era_start_date  ON  drug_era (drug_era_start_date ASC);
+CREATE INDEX  idx_drug_era_end_date  ON  drug_era (drug_era_end_date ASC);
+CREATE INDEX  idx_condition_era_start_date  ON  condition_era (condition_era_start_date ASC);
+CREATE INDEX  idx_condition_era_end_date  ON  condition_era (condition_era_end_date ASC);
+
+ANALYZE concept;
+ANALYZE concept_ancestor;
+ANALYZE person;
+ANALYZE observation_period;
+ANALYZE condition_occurrence;
+ANALYZE observation_period;
+ANALYZE drug_exposure;
+ANALYZE procedure_occurrence;
+ANALYZE measurement;
+ANALYZE observation;
+ANALYZE drug_era;
+ANALYZE condition_era;

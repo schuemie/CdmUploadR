@@ -63,3 +63,7 @@ The vocabulary data is assumed to have been downloaded from [Athena](https://ath
 # CDM data
 
 The CDM data is assumed to be in CSV files, one or several per CDM table. Number prefixes will be ignored. E.g. `care_site_1.csv` will be loaded into the `case_site` table.
+
+# PostgreSQL server optimization
+
+We highly recommend using [PGTune](https://pgtune.leopard.in.ua/) to optimize the performance of your PostgreSQL database. Choose 'Data warehouse' as DB type. Once you've selected your system specifications, PGTune provides two ways to update your configuration: by manually editing your postgresql.conf file, or by issuing `ALTER SYSTEM` commands via a SQL client (like pgAdmin). I personally find the latter easier to use. Don't forget to restart your server for the changes to take effect.

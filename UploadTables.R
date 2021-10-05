@@ -160,6 +160,9 @@ executeSql(connection, sql)
 sql <- readSql("OMOP CDM indexes required - PostgreSQL.sql")
 executeSql(connection, sql)
 
+sql <- readSql("AdditionalIndexesAndAnalyze.sql")
+executeSql(connection, sql)
+
 
 # Build eras ------------------------------------------------------------------------
 sql <- render("SET SEARCH_PATH = @cdm_database_schema;", cdm_database_schema = cdmDatabaseSchema)
