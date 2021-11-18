@@ -1,7 +1,7 @@
 CREATE INDEX  idx_observation_period_start_date  ON  observation_period  (observation_period_start_date ASC);
 CREATE INDEX  idx_observation_period_end_date  ON  observation_period  (observation_period_end_date ASC);
 CREATE INDEX  idx_drug_start_date  ON  drug_exposure (drug_exposure_start_date ASC);
-CREATE INDEX  idx_drug_end_date  ON  drug_exposure (drug_xposure_end_date ASC);
+CREATE INDEX  idx_drug_end_date  ON  drug_exposure (drug_exposure_end_date ASC);
 CREATE INDEX  idx_condition_start_date  ON  condition_occurrence (condition_start_date ASC);
 CREATE INDEX  idx_condition_end_date  ON  condition_occurrence (condition_end_date ASC);
 CREATE INDEX  idx_procedure_date  ON  procedure_occurrence (procedure_date ASC);
