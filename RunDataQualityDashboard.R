@@ -1,8 +1,11 @@
 # (Optional): Code to run DataQualityDashboard on the uploaded CMD data
 
+outputFolder <- "D:/Synpuf/DQD"
+
+
 # Install DataQualityDashboard ---------------------------------------
 install.packages("remotes")
-remotes::install_github("ohdsi/DataQualityDashboard")
+remotes::install_github("ohdsi/DataQualityDashboard", ref = "v5.2.2-fix")
 
 
 # Run DataQualityDashboard ----------------------------------------------
@@ -22,4 +25,9 @@ executeDqChecks(connectionDetails = connectionDetails,
                 cdmDatabaseSchema = cdmDatabaseSchema, 
                 resultsDatabaseSchema = resultsDatabaseSchema,
                 cdmSourceName = "SynPuf", 
-                cdmVersion = "5.2.2")
+                cdmVersion = "5.2.2",
+                outputFolder = outputFolder)
+
+# View the dashboard --------------------------------------------------
+jsonFile <- list.files(outputFolder, ".json", full.names = TRUE)
+viewDqDashboard(jsonPath = jsonFile)
