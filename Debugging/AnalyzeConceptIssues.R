@@ -81,3 +81,48 @@ renderTranslateQuerySql(connection = connection,
 
 disconnect(connection)
 
+
+# Check Hydroxychloroquine cohort --------------------------------
+
+connection <- connect(connectionDetails)
+sql <- "
+SELECT * 
+FROM @cdm_database_schema.drug_exposure
+INNER JOIN @cdm_database_schema.concept_ancestor
+  ON drug_concept_id = descendant_concept_id
+WHERE ancestor_concept_id = @concept_id
+ORDER BY person_id;
+"
+drugs <- renderTranslateQuerySql(connection = connection, 
+                                 sql = sql,
+                                 cdm_database_schema = cdmDatabaseSchema,
+                                 concept_id = 1777087) # Hydroxychloroquine
+nrow(drugs)
+# [1] 30829
+
+head(drugs$PERSON_ID)
+# [1] 208 230 240 258 294 533
+
+sql <- "
+SELECT * 
+FROM @cdm_database_schema.condition_occurrence
+INNER JOIN @cdm_database_schema.concept_ancestor
+  ON condition_concept_id = descendant_concept_id
+WHERE ancestor_concept_id = @concept_id
+ORDER BY person_id;"
+conditions <- renderTranslateQuerySql(connection = connection, 
+                                      sql = sql,
+                                      cdm_database_schema = cdmDatabaseSchema,
+                                      concept_id = 80809) # Rheumatoid arthritis
+nrow(conditions)
+# [1] 1280566
+
+head(conditions$PERSON_ID)
+# [1] 7 7 7 7 7 7
+
+# Overlap:
+sum(drugs$PERSON_ID %in% conditions$PERSON_ID)
+# [1] 10506
+
+disconnect(connection)
+
