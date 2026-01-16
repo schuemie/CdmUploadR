@@ -8,14 +8,19 @@ connectionDetails <- createConnectionDetails(dbms = "postgresql",
                                              password = keyring::key_get("postgresPassword"),
                                              port = keyring::key_get("postgresPort"))
 
+# connectionDetails <- createConnectionDetails(dbms = "postgresql",
+#                                              server = Sys.getenv("LOCAL_POSTGRES_SERVER"),
+#                                              user = Sys.getenv("LOCAL_POSTGRES_USER"),
+#                                              password = Sys.getenv("LOCAL_POSTGRES_PASSWORD"),)
+
 # Use bulk upload? Will be much faster, but requires POSTGRES_PATH variable set to folder containing pg.exe:
 bulkLoad <- TRUE
 
 # Schema where the CDM data should be uploaded:
-cdmDatabaseSchema <- "synpuf"
+cdmDatabaseSchema <- "vocabulary"
 
 # Local folder containing the vocabulary used in the ETL:
-vocabFolder <- "D:/Synpuf/Vocab"
+vocabFolder <- "~/Data/Vocabulary"
 
 # Local folder containing the ETL-ed data. Data is expected to be in CSV files, with names corresponding to 
 # the CDM table names. Number prefixes will be ignored. E.g. 'care_site_1.csv will be loaded into the 'case_site' table.
@@ -29,11 +34,8 @@ batchSize <- 1e7
 connection <- connect(connectionDetails)
 
 # Create table structures -----------------------------------------
-sql <- render("SET SEARCH_PATH = @cdm_database_schema;", cdm_database_schema = cdmDatabaseSchema)
-executeSql(connection, sql)
-
-sql <- readSql("OMOP CDM ddl - PostgreSQL.sql")
-executeSql(connection, sql)
+sql <- readSql("OMOPCDM_postgresql_5.4_ddl.sql")
+renderTranslateExecuteSql(connection, sql, cdmDatabaseSchema = cdmDatabaseSchema)
 
 
 # Load vocabulary ------------------------------------------------------------------
@@ -57,6 +59,7 @@ for (file in files) {
       }
       # For bulk uploading:
       options(encoding = "UTF-8")
+      
       insertTable(connection = connection,
                   databaseSchema = cdmDatabaseSchema,
                   tableName = table,
@@ -151,17 +154,17 @@ for (file in files) {
 
 
 # Create indices and constraints ----------------------------------------------------------
-sql <- render("SET SEARCH_PATH = @cdm_database_schema;", cdm_database_schema = cdmDatabaseSchema)
-executeSql(connection, sql)
+sql <- readSql("OMOPCDM_postgresql_5.4_primary_keys.sql")
+renderTranslateExecuteSql(connection, sql, cdmDatabaseSchema = cdmDatabaseSchema)
 
-sql <- readSql("OMOP CDM constraints - PostgreSQL.sql")
-executeSql(connection, sql)
+sql <- readSql("OMOPCDM_postgresql_5.4_constraints.sql")
+renderTranslateExecuteSql(connection, sql, cdmDatabaseSchema = cdmDatabaseSchema)
 
-sql <- readSql("OMOP CDM indexes required - PostgreSQL.sql")
-executeSql(connection, sql)
+sql <- readSql("OMOPCDM_postgresql_5.4_indices.sql")
+renderTranslateExecuteSql(connection, sql, cdmDatabaseSchema = cdmDatabaseSchema)
 
-sql <- readSql("AdditionalIndexesAndAnalyze.sql")
-executeSql(connection, sql)
+sql <- readSql("Analyze.sql")
+renderTranslateExecuteSql(connection, sql, cdmDatabaseSchema = cdmDatabaseSchema)
 
 
 # Build eras ------------------------------------------------------------------------

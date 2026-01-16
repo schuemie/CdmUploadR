@@ -1,0 +1,12 @@
+ANALYZE @cdmDatabaseSchema.concept;
+ANALYZE @cdmDatabaseSchema.concept_ancestor;
+ANALYZE @cdmDatabaseSchema.person;
+ANALYZE @cdmDatabaseSchema.observation_period;
+ANALYZE @cdmDatabaseSchema.condition_occurrence;
+ANALYZE @cdmDatabaseSchema.observation_period;
+ANALYZE @cdmDatabaseSchema.drug_exposure;
+ANALYZE @cdmDatabaseSchema.procedure_occurrence;
+ANALYZE @cdmDatabaseSchema.measurement;
+ANALYZE @cdmDatabaseSchema.observation;
+ANALYZE @cdmDatabaseSchema.drug_era;
+ANALYZE @cdmDatabaseSchema.condition_era;
