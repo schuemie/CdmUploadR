@@ -11,7 +11,7 @@ connectionDetails <- createConnectionDetails(dbms = "postgresql",
 # connectionDetails <- createConnectionDetails(dbms = "postgresql",
 #                                              server = Sys.getenv("LOCAL_POSTGRES_SERVER"),
 #                                              user = Sys.getenv("LOCAL_POSTGRES_USER"),
-#                                              password = Sys.getenv("LOCAL_POSTGRES_PASSWORD"),)
+#                                              password = Sys.getenv("LOCAL_POSTGRES_PASSWORD"))
 
 # Use bulk upload? Will be much faster, but requires POSTGRES_PATH variable set to folder containing pg.exe:
 bulkLoad <- TRUE
@@ -71,7 +71,7 @@ for (file in files) {
     read_delim_chunked(file = file.path(vocabFolder, file), 
                        callback = upload,
                        delim = "\t", 
-                       quote = "|", 
+                       quote = "\b", 
                        na = "",
                        col_types = cols(),
                        guess_max = 1e5, 
